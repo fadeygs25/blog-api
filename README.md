@@ -1,4 +1,4 @@
-Here is the translated README for your Blog API project in English:
+Dưới đây là phiên bản đã chỉnh sửa của README, bao gồm phần hướng dẫn migration từ đầu đến cuối:
 
 ---
 
@@ -106,37 +106,6 @@ python manage.py startapp core
 mkdir -p config/settings apps/core/{services,repositories,factories} static/css static/js static/images media/uploads templates/core logs scripts tests docs requirements
 ```
 
-3. **Directory structure after creation:**
-
-```plaintext
-my_project/
-├── config/
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── settings/
-│   │   ├── __init__.py
-│   │   ├── base.py
-│   │   ├── development.py
-│   │   ├── production.py
-│   │   ├── testing.py
-│   │   ├── ci_cd.py
-│   ├── urls.py
-│   ├── wsgi.py
-├── apps/
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── models.py
-│   │   ├── views.py
-│   │   ├── urls.py
-│   │   ├── services/
-│   │   ├── repositories/
-│   │   ├── factories/
-│   ├── ...
-├── manage.py
-├── Dockerfile
-├── docker-compose.yml
-```
-
 ### Step 3: Configure `settings.py`
 
 1. **Create basic configuration in `config/settings/base.py`:**
@@ -235,7 +204,58 @@ class BlogPostViewSet(viewsets.ViewSet):
         return Response(posts)
 ```
 
-### Step 5: Run the Project
+### Step 5: Set Up Database and Migrations
+
+1. **Configure Database:**
+
+Ensure your database configuration is correct in the `config/settings/development.py` file (or the relevant environment file). For example, with PostgreSQL:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog_db',
+        'USER': 'your_username',
+        'PASSWORD': 'your_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+
+2. **Run Migrations:**
+
+Once your models are set up, it's time to apply migrations. Follow these steps:
+
+- First, create migration files based on the changes in your models:
+
+```bash
+python manage.py makemigrations
+```
+
+- Then, apply those migrations to your database:
+
+```bash
+python manage.py migrate
+```
+
+3. **Run Migrations for Core App:**
+
+Once your models are set up, it's time to apply migrations. Follow these steps:
+
+- First, ensure the `core` app's models are ready for migration:
+
+```bash
+python manage.py makemigrations core
+```
+
+- Then, apply those migrations to your database:
+
+```bash
+python manage.py migrate core
+```
+
+### Step 6: Run the Project
 
 1. **Run the development server:**
 
@@ -247,4 +267,4 @@ python manage.py runserver
 
 ---
 
-This README will guide you through the entire process of setting up and deploying the Blog API with Django, including all steps from installation, directory structure, configuration, and coding CRUD functionality.
+This README now includes instructions for setting up and running migrations as part of the Blog API project with Django.
